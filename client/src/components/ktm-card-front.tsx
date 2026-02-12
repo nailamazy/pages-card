@@ -10,9 +10,6 @@ interface KTMCardFrontProps {
 }
 
 export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) {
-  // Theme is largely ignored for background now, but we might use it for text colors if needed.
-  // For realism, we stick to black/grey as per reference photo.
-
   const bulanMap: Record<string, string> = {
     "01": "Januari", "02": "Februari", "03": "Maret", "04": "April",
     "05": "Mei", "06": "Juni", "07": "Juli", "08": "Agustus",
@@ -31,6 +28,15 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
 
   const qrValue = student.noKartu || `KTM-${student.nim}-${new Date().getFullYear()}`;
   const sigImg = signatureImages[student.signatureIndex % signatureImages.length];
+  const barcodeValue = (student.noKartu || "000000000000").replace(/[^0-9]/g, "").substring(0, 12) || "000000000000";
+
+  // White-card area coordinates tuned to the template image proportions.
+  const frame = {
+    left: 160,
+    top: 76,
+    width: 312,
+    height: 228,
+  };
 
   return (
     <div
@@ -49,82 +55,91 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
         color: "#000",
       }}
     >
-      {/* Header Section */}
       <div
         style={{
           position: "absolute",
-          top: "20px",
-          left: "0",
-          right: "0",
-          textAlign: "center",
+          left: `${frame.left}px`,
+          top: `${frame.top}px`,
+          width: `${frame.width}px`,
+          height: `${frame.height}px`,
+          borderRadius: "14px",
+          overflow: "hidden",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 10,
+          padding: "10px 11px 8px",
+          boxSizing: "border-box",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
-          {university.logoUrl && (
-            <img
-              src={university.logoUrl}
-              alt="Logo"
-              style={{
-                height: "55px",
-                width: "55px",
-                objectFit: "contain",
-                position: "absolute",
-                left: "30px",
-                top: "5px"
-              }}
-            />
-          )}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div
+            style={{
+              width: "36px",
+              height: "36px",
+              flexShrink: 0,
+              borderRadius: "6px",
+              overflow: "hidden",
+              backgroundColor: "#f1f5f9",
+              border: "1px solid #dbe1eb",
+            }}
+          >
+            {university.logoUrl ? (
+              <img
+                src={university.logoUrl}
+                alt="Logo"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            ) : null}
+          </div>
 
-          <div style={{ textAlign: "center", width: "100%", paddingLeft: "20px" }}>
-            <div style={{ fontSize: "14px", fontWeight: "bold", letterSpacing: "1px" }}>REPUBLIK INDONESIA</div>
-            <div style={{ fontSize: "22px", fontWeight: "800", textTransform: "uppercase", margin: "2px 0" }}>
+          <div style={{ flex: 1, minWidth: 0, textAlign: "center", lineHeight: 1.2 }}>
+            <div style={{ fontSize: "8px", fontWeight: 700, letterSpacing: "0.6px" }}>REPUBLIK INDONESIA</div>
+            <div
+              style={{
+                fontSize: "9px",
+                fontWeight: 800,
+                textTransform: "uppercase",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
               {university.name.replace("Universitas Negeri Yogyakarta", "YOGYAKARTA STATE UNIVERSITY")}
             </div>
-            <div style={{ fontSize: "10px", fontWeight: "400" }}>{university.address}</div>
+            <div
+              style={{
+                fontSize: "6.3px",
+                color: "#334155",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {university.address}
+            </div>
           </div>
         </div>
 
         <div style={{
-          width: "90%",
-          height: "2px",
-          backgroundColor: "#000",
           marginTop: "6px",
-          marginBottom: "4px"
-        }} />
-      </div>
-
-      {/* Main Content */}
-      <div style={{
-        position: "absolute",
-        top: "105px",
-        left: "30px",
-        right: "30px",
-        bottom: "20px",
-      }}>
-        {/* Title */}
-        <div style={{
+          borderTop: "1px solid #0f172a",
+          paddingTop: "4px",
           textAlign: "center",
-          fontSize: "16px",
-          fontWeight: "800",
+          fontSize: "9px",
+          fontWeight: 800,
           textTransform: "uppercase",
-          marginBottom: "10px"
+          letterSpacing: "0.5px",
         }}>
           KARTU TANDA MAHASISWA
         </div>
 
-        <div style={{ display: "flex", width: "100%", gap: "20px" }}>
-          {/* Photos */}
-          <div style={{ width: "140px", flexShrink: 0 }}>
+        <div style={{ display: "flex", width: "100%", gap: "8px", marginTop: "6px" }}>
+          <div style={{ width: "78px", flexShrink: 0 }}>
             <div style={{
-              width: "140px",
-              height: "175px",
+              width: "78px",
+              height: "98px",
               backgroundColor: "#ddd",
               overflow: "hidden",
+              borderRadius: "6px",
             }}>
               {student.photoUrl ? (
                 <img src={student.photoUrl} alt="Student" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -136,8 +151,7 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
             </div>
           </div>
 
-          {/* Data Fields */}
-          <div style={{ flex: 1, paddingTop: "0px" }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <tbody>
                 {[
@@ -152,9 +166,22 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
                   ["Status", "Mahasiswa Aktif"],
                 ].map(([label, value]) => (
                   <tr key={label}>
-                    <td style={{ fontSize: "11px", fontWeight: "500", padding: "1px 0", width: "110px", verticalAlign: "top" }}>{label}</td>
-                    <td style={{ fontSize: "11px", fontWeight: "500", padding: "1px 5px", width: "10px", verticalAlign: "top" }}>:</td>
-                    <td style={{ fontSize: "11px", fontWeight: "600", padding: "1px 0", verticalAlign: "top" }}>{value}</td>
+                    <td style={{ fontSize: "6.5px", fontWeight: 600, padding: "0.5px 0", width: "70px", verticalAlign: "top", color: "#111827" }}>{label}</td>
+                    <td style={{ fontSize: "6.5px", fontWeight: 600, padding: "0.5px 4px", width: "6px", verticalAlign: "top" }}>:</td>
+                    <td
+                      style={{
+                        fontSize: "6.5px",
+                        fontWeight: 700,
+                        padding: "0.5px 0",
+                        verticalAlign: "top",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        maxWidth: "145px",
+                      }}
+                    >
+                      {value}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -162,57 +189,60 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
           </div>
         </div>
 
-        {/* Bottom Section: Barcode/Serial, QR, Signature */}
         <div style={{
-          marginTop: "15px",
+          marginTop: "8px",
           display: "flex",
           alignItems: "flex-end",
           justifyContent: "space-between",
-          // borderTop: "1px solid red" // Debug
         }}>
-
-          {/* Barcode & Serial */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
             <Barcode
-              value={student.noKartu.replace(/[^0-9]/g, "").substring(0, 12) || "000000000000"}
+              value={barcodeValue}
               format="CODE128"
-              width={1.5}
-              height={30}
+              width={1}
+              height={18}
               displayValue={false}
               margin={0}
               background="transparent"
             />
-            <div style={{ fontSize: "11px", fontWeight: "500", marginTop: "2px" }}>
-              Serial: {student.serialNumber}
+            <div style={{ fontSize: "6.2px", fontWeight: 600, marginTop: "1px" }}>
+              Serial: {student.serialNumber || student.nim}
             </div>
           </div>
 
-          {/* QR Code */}
-          <div style={{ marginBottom: "5px" }}>
+          <div style={{ marginBottom: "2px" }}>
             <QRCodeSVG
               value={qrValue}
-              size={50}
+              size={34}
               level="M"
             />
           </div>
 
-          {/* Signature */}
           <div style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: "180px"
+            width: "98px"
           }}>
             <img
               src={sigImg}
               alt="Signature"
-              style={{ width: "100px", height: "auto", marginBottom: "-5px" }}
+              style={{ width: "64px", height: "auto", marginBottom: "-2px" }}
             />
-            <div style={{ fontSize: "11px", fontWeight: "600", textAlign: "center", whiteSpace: "nowrap" }}>
+            <div
+              style={{
+                fontSize: "6.2px",
+                fontWeight: 700,
+                textAlign: "center",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                width: "100%",
+              }}
+            >
               {student.dosenWali}
             </div>
           </div>
-
         </div>
       </div>
     </div>
