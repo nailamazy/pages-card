@@ -7,6 +7,8 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const repoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
+const basePath = process.env.VITE_BASE_PATH ?? (repoName ? `/${repoName}/` : "/");
 
 export default defineConfig({
   plugins: [react(), runtimeErrorOverlay()],
@@ -17,7 +19,7 @@ export default defineConfig({
     },
   },
   root: path.resolve(__dirname, "client"),
-  base: "/Web-Deploy-Helper/",
+  base: basePath,
   define: {
     // Disable API calls for static hosting
     "import.meta.env.VITE_API_ENABLED": "false",
