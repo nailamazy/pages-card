@@ -28,14 +28,14 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
 
   const qrValue = student.noKartu || `KTM-${student.nim}-${new Date().getFullYear()}`;
   const sigImg = signatureImages[student.signatureIndex % signatureImages.length];
-  const barcodeValue = (student.noKartu || "000000000000").replace(/[^0-9]/g, "").substring(0, 12) || "000000000000";
+  const barcodeValue = student.serialNumber || student.nim || "000000000000";
 
   // White-card area coordinates tuned to the template image proportions.
   const frame = {
     left: 160,
-    top: 82,
+    top: 78,
     width: 312,
-    height: 205,
+    height: 216,
   };
 
   return (
@@ -66,15 +66,16 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
-          padding: "6px 8px 6px",
+          padding: "8px 10px",
           boxSizing: "border-box",
+          color: "#000000",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
           <div
             style={{
-              width: "28px",
-              height: "28px",
+              width: "34px",
+              height: "34px",
               flexShrink: 0,
               borderRadius: "5px",
               overflow: "hidden",
@@ -92,23 +93,24 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
           </div>
 
           <div style={{ flex: 1, minWidth: 0, textAlign: "center", lineHeight: 1.2 }}>
-            <div style={{ fontSize: "8.6px", fontWeight: 700, letterSpacing: "0.4px" }}>REPUBLIK INDONESIA</div>
+            <div style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "0.4px", color: "#000" }}>REPUBLIK INDONESIA</div>
             <div
               style={{
-                fontSize: "7px",
+                fontSize: "8.2px",
                 fontWeight: 800,
                 textTransform: "uppercase",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
+                color: "#000",
               }}
             >
               {university.name.replace("Universitas Negeri Yogyakarta", "YOGYAKARTA STATE UNIVERSITY")}
             </div>
             <div
               style={{
-                fontSize: "5.3px",
-                color: "#334155",
+                fontSize: "6.2px",
+                color: "#000000",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -120,23 +122,24 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
         </div>
 
         <div style={{
-          marginTop: "5px",
+          marginTop: "6px",
           borderTop: "1px solid #0f172a",
-          paddingTop: "3px",
+          paddingTop: "4px",
           textAlign: "center",
-          fontSize: "6.6px",
+          fontSize: "8.7px",
           fontWeight: 800,
           textTransform: "uppercase",
-          letterSpacing: "0.4px",
+          letterSpacing: "0.5px",
+          color: "#000",
         }}>
           KARTU TANDA MAHASISWA
         </div>
 
-        <div style={{ display: "flex", width: "100%", gap: "8px", marginTop: "6px" }}>
-          <div style={{ width: "92px", flexShrink: 0 }}>
+        <div style={{ display: "flex", width: "100%", gap: "9px", marginTop: "6px" }}>
+          <div style={{ width: "96px", flexShrink: 0 }}>
             <div style={{
-              width: "92px",
-              height: "104px",
+              width: "96px",
+              height: "111px",
               backgroundColor: "#ddd",
               overflow: "hidden",
               borderRadius: "3px",
@@ -166,18 +169,19 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
                   ["Status", "Mahasiswa Aktif"],
                 ].map(([label, value]) => (
                   <tr key={label}>
-                    <td style={{ fontSize: "6.1px", fontWeight: 600, padding: "0.4px 0", width: "73px", verticalAlign: "top", color: "#111827" }}>{label}</td>
-                    <td style={{ fontSize: "6.1px", fontWeight: 600, padding: "0.4px 4px", width: "6px", verticalAlign: "top" }}>:</td>
+                    <td style={{ fontSize: "7.8px", fontWeight: 700, padding: "0.4px 0", width: "76px", verticalAlign: "top", color: "#000" }}>{label}</td>
+                    <td style={{ fontSize: "7.8px", fontWeight: 700, padding: "0.4px 4px", width: "6px", verticalAlign: "top", color: "#000" }}>:</td>
                     <td
                       style={{
-                        fontSize: "6.1px",
+                        fontSize: "7.8px",
                         fontWeight: 700,
                         padding: "0.4px 0",
                         verticalAlign: "top",
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        maxWidth: "128px",
+                        maxWidth: "122px",
+                        color: "#000",
                       }}
                     >
                       {value}
@@ -194,27 +198,32 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
           display: "flex",
           alignItems: "flex-end",
           justifyContent: "space-between",
+          gap: "6px",
+          paddingTop: "5px",
         }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1px", width: "142px" }}>
             <Barcode
               value={barcodeValue}
               format="CODE128"
-              width={1.04}
-              height={21}
+              width={1.25}
+              height={24}
               displayValue={false}
               margin={0}
               background="transparent"
+              lineColor="#000000"
             />
-            <div style={{ fontSize: "5.6px", fontWeight: 600, marginTop: "1px" }}>
+            <div style={{ fontSize: "7px", fontWeight: 700, marginTop: "1px", color: "#000" }}>
               Serial: {student.serialNumber || student.nim}
             </div>
           </div>
 
-          <div style={{ marginBottom: "2px", marginLeft: "4px" }}>
+          <div style={{ marginBottom: "2px" }}>
             <QRCodeSVG
               value={qrValue}
-              size={38}
+              size={46}
               level="M"
+              fgColor="#000000"
+              bgColor="#ffffff"
             />
           </div>
 
@@ -222,23 +231,23 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: "94px",
-            marginLeft: "4px",
+            width: "92px",
           }}>
             <img
               src={sigImg}
               alt="Signature"
-              style={{ width: "72px", height: "auto", marginBottom: "-2px" }}
+              style={{ width: "86px", height: "auto", marginBottom: "-2px", filter: "contrast(175%) brightness(45%)" }}
             />
             <div
               style={{
-                fontSize: "5.2px",
+                fontSize: "7px",
                 fontWeight: 700,
                 textAlign: "center",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 width: "100%",
+                color: "#000",
               }}
             >
               {student.dosenWali}
