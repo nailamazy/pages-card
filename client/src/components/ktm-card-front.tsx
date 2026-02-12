@@ -33,9 +33,9 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
   // White-card area coordinates tuned to the template image proportions.
   const frame = {
     left: 160,
-    top: 76,
+    top: 82,
     width: 312,
-    height: 228,
+    height: 205,
   };
 
   return (
@@ -66,17 +66,17 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
-          padding: "10px 11px 8px",
+          padding: "6px 8px 6px",
           boxSizing: "border-box",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
           <div
             style={{
-              width: "36px",
-              height: "36px",
+              width: "28px",
+              height: "28px",
               flexShrink: 0,
-              borderRadius: "6px",
+              borderRadius: "5px",
               overflow: "hidden",
               backgroundColor: "#f1f5f9",
               border: "1px solid #dbe1eb",
@@ -92,10 +92,10 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
           </div>
 
           <div style={{ flex: 1, minWidth: 0, textAlign: "center", lineHeight: 1.2 }}>
-            <div style={{ fontSize: "8px", fontWeight: 700, letterSpacing: "0.6px" }}>REPUBLIK INDONESIA</div>
+            <div style={{ fontSize: "8.6px", fontWeight: 700, letterSpacing: "0.4px" }}>REPUBLIK INDONESIA</div>
             <div
               style={{
-                fontSize: "9px",
+                fontSize: "7px",
                 fontWeight: 800,
                 textTransform: "uppercase",
                 whiteSpace: "nowrap",
@@ -107,7 +107,7 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
             </div>
             <div
               style={{
-                fontSize: "6.3px",
+                fontSize: "5.3px",
                 color: "#334155",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
@@ -120,26 +120,26 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
         </div>
 
         <div style={{
-          marginTop: "6px",
+          marginTop: "5px",
           borderTop: "1px solid #0f172a",
-          paddingTop: "4px",
+          paddingTop: "3px",
           textAlign: "center",
-          fontSize: "9px",
+          fontSize: "6.6px",
           fontWeight: 800,
           textTransform: "uppercase",
-          letterSpacing: "0.5px",
+          letterSpacing: "0.4px",
         }}>
           KARTU TANDA MAHASISWA
         </div>
 
         <div style={{ display: "flex", width: "100%", gap: "8px", marginTop: "6px" }}>
-          <div style={{ width: "78px", flexShrink: 0 }}>
+          <div style={{ width: "92px", flexShrink: 0 }}>
             <div style={{
-              width: "78px",
-              height: "98px",
+              width: "92px",
+              height: "104px",
               backgroundColor: "#ddd",
               overflow: "hidden",
-              borderRadius: "6px",
+              borderRadius: "3px",
             }}>
               {student.photoUrl ? (
                 <img src={student.photoUrl} alt="Student" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -166,18 +166,18 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
                   ["Status", "Mahasiswa Aktif"],
                 ].map(([label, value]) => (
                   <tr key={label}>
-                    <td style={{ fontSize: "6.5px", fontWeight: 600, padding: "0.5px 0", width: "70px", verticalAlign: "top", color: "#111827" }}>{label}</td>
-                    <td style={{ fontSize: "6.5px", fontWeight: 600, padding: "0.5px 4px", width: "6px", verticalAlign: "top" }}>:</td>
+                    <td style={{ fontSize: "6.1px", fontWeight: 600, padding: "0.4px 0", width: "73px", verticalAlign: "top", color: "#111827" }}>{label}</td>
+                    <td style={{ fontSize: "6.1px", fontWeight: 600, padding: "0.4px 4px", width: "6px", verticalAlign: "top" }}>:</td>
                     <td
                       style={{
-                        fontSize: "6.5px",
+                        fontSize: "6.1px",
                         fontWeight: 700,
-                        padding: "0.5px 0",
+                        padding: "0.4px 0",
                         verticalAlign: "top",
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        maxWidth: "145px",
+                        maxWidth: "128px",
                       }}
                     >
                       {value}
@@ -190,7 +190,7 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
         </div>
 
         <div style={{
-          marginTop: "8px",
+          marginTop: "auto",
           display: "flex",
           alignItems: "flex-end",
           justifyContent: "space-between",
@@ -199,21 +199,21 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
             <Barcode
               value={barcodeValue}
               format="CODE128"
-              width={1}
-              height={18}
+              width={1.04}
+              height={21}
               displayValue={false}
               margin={0}
               background="transparent"
             />
-            <div style={{ fontSize: "6.2px", fontWeight: 600, marginTop: "1px" }}>
+            <div style={{ fontSize: "5.6px", fontWeight: 600, marginTop: "1px" }}>
               Serial: {student.serialNumber || student.nim}
             </div>
           </div>
 
-          <div style={{ marginBottom: "2px" }}>
+          <div style={{ marginBottom: "2px", marginLeft: "4px" }}>
             <QRCodeSVG
               value={qrValue}
-              size={34}
+              size={38}
               level="M"
             />
           </div>
@@ -222,16 +222,17 @@ export function KTMCardFront({ student, university, theme }: KTMCardFrontProps) 
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: "98px"
+            width: "94px",
+            marginLeft: "4px",
           }}>
             <img
               src={sigImg}
               alt="Signature"
-              style={{ width: "64px", height: "auto", marginBottom: "-2px" }}
+              style={{ width: "72px", height: "auto", marginBottom: "-2px" }}
             />
             <div
               style={{
-                fontSize: "6.2px",
+                fontSize: "5.2px",
                 fontWeight: 700,
                 textAlign: "center",
                 whiteSpace: "nowrap",
